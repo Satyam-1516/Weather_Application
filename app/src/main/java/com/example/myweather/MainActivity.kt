@@ -5,6 +5,7 @@ package com.example.myweather
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
@@ -12,6 +13,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.ceil
 
 
@@ -65,7 +68,12 @@ class MainActivity : AppCompatActivity() {
         pressure.text=response.getJSONObject("main").getString("pressure")
         humidity.text=response.getJSONObject("main").getString("humidity")+"%"
         wind.text=response.getJSONObject("wind").getString("speed")
-        degree.text="Degree : "+response.getJSONObject("wind").getString("deg")+"°"
+        //degree.text="Degree : "+response.getJSONObject("wind").getString("deg")+"°"
 //        gust.text="Gust : "+response.getJSONObject("wind").getString("gust")
+        val sys = response.getJSONObject("sys")
+        val sunrise:Long = sys.getLong("sunrise")
+        val sunset:Long = sys.getLong("sunset")
+        findViewById<TextView>(R.id.sunrise).text = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunrise*1000))
+        findViewById<TextView>(R.id.sunset).text = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunset*1000))
     }
 }
